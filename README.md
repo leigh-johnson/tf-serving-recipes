@@ -1,4 +1,4 @@
-# From Zero to Preoduction TensorFlow
+# From Zero to Production TensorFlow
 
 The missing quick-start guide to deploying [TensorFlow Hub](https://www.tensorflow.org/hub) models with [TensorFlow serving](https://www.tensorflow.org/tfx/guide/serving). 
 
