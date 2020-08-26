@@ -5,7 +5,8 @@ FROM $TFSERVING_IMAGE
 ARG GRPC_PORT=8500
 ARG REST_PORT=8501
 ARG MODEL_SHA=063d866c06683311b44b4992fd46003be952409c
-ARG MODEL_NAME=universal_sentence_encoder_4
+ARG MODEL_NAME=universal-sentence-encoder
+ARG MODEL_VERSION=4
 ARG MODEL_URI=https://tfhub.dev/google/universal-sentence-encoder/4
 ARG TFHUB_CACHE_DIR=/opt/models
 ARG TFSERVING_DIR=/opt/serving
@@ -15,6 +16,7 @@ ENV REST_PORT ${REST_PORT}
 ENV MODEL_SHA ${MODEL_SHA}
 ENV MODEL_NAME ${MODEL_NAME}
 ENV MODEL_URI ${MODEL_URI}
+ENV MODEL_VERSION ${MODEL_VERSION}
 ENV TFHUB_CACHE_DIR ${TFHUB_CACHE_DIR}
 ENV TFSERVING_DIR ${TFSERVING_DIR}
 
@@ -29,8 +31,8 @@ ADD tfhub_downloader.py ${TFSERVING_DIR}/tfhub_downloader.py
 # This increases image size, but also increases the reliability of your service - you don't want to pass a TFHub outage on to your customers. 
 RUN pip3 install -r  ${TFSERVING_DIR}/requirements.txt
 RUN python3 ${TFSERVING_DIR}/tfhub_downloader.py
-RUN mkdir -p ${TFHUB_CACHE_DIR}/universal-sentence-encoder/4
-RUN mv ${TFHUB_CACHE_DIR}/${MODEL_SHA}/* ${TFHUB_CACHE_DIR}/universal-sentence-encoder/4
+RUN mkdir -p ${TFHUB_CACHE_DIR}/${MODEL_NAME}/${MODEL_VERSION}
+RUN mv ${TFHUB_CACHE_DIR}/${MODEL_SHA}/* ${TFHUB_CACHE_DIR}/${MODEL_NAME}/${MODEL_VERSION}
 ADD model.config ${TFSERVING_DIR}/model.config
 ADD metrics.config ${TFSERVING_DIR}/metrics.config
 ADD batch.config ${TFSERVING_DIR}/batch.config
