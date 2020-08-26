@@ -32,6 +32,7 @@ RUN python3 ${TFSERVING_DIR}/tfhub_downloader.py
 RUN mkdir -p ${TFHUB_CACHE_DIR}/universal-sentence-encoder/4
 RUN mv ${TFHUB_CACHE_DIR}/${MODEL_SHA}/* ${TFHUB_CACHE_DIR}/universal-sentence-encoder/4
 ADD model.config ${TFSERVING_DIR}/model.config
+ADD metrics.config ${TFSERVING_DIR}/metrics.config
 
 EXPOSE ${GRPC_PORT}
 EXPOSE ${REST_PORT}
@@ -39,4 +40,8 @@ EXPOSE ${REST_PORT}
 # override entrypoint and use shell format so variables are expanded
 # https://docs.docker.com/engine/reference/builder/#entrypoint
 # https://github.com/moby/moby/issues/5509
-ENTRYPOINT tensorflow_model_server --port=${GRPC_PORT} --rest_api_port=${REST_PORT} --model_config_file=${TFSERVING_DIR}/model.config
+ENTRYPOINT tensorflow_model_server \
+    --port=${GRPC_PORT} \
+    --rest_api_port=${REST_PORT} \
+    --model_config_file=${TFSERVING_DIR}/model.config \
+    --monitoring_config_file=${TFSERVING_DIR}/metrics.config
