@@ -26,22 +26,62 @@ USE generates text embeddings for a given string, which is a high-dimensional re
 
 1. Start a prediction server
 ```bash
-cd universal_sentence_encoder
-docker-compose build
-docker-compose up
+$ cd universal_sentence_encoder
+$ docker-compose build
+$ docker-compose up
 
 ```
 
 2. Make predictions with example clients
 
 ```bash
-cd universal_sentence_encoder
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r client/requirements.txt
-python client/grpc_example.py
-python client/rest_example.py
+$ cd universal_sentence_encoder
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+$ pip install -r client/requirements.txt
+$ python client/grpc_example.py
+$ python client/rest_example.py
 ```
+
+3. Example Output
+
+```bash
+$ python client/rest_example.py                                                 
+{'outputs': [[-0.00179422169,
+              -0.0747870058,
+              0.0838590711,
+              ...
+```
+
+```bash
+$ python client/grpc_example.py 
+outputs {
+  key: "outputs"
+  value {
+    dtype: DT_FLOAT
+    tensor_shape {
+      dim {
+        size: 1
+      }
+      dim {
+        size: 512
+      }
+    }
+    float_val: -0.0050949095748364925
+    float_val: -0.070153146982193
+    float_val: 0.08538997173309326
+    ...
+  }
+}
+model_spec {
+  name: "universal-sentence-encoder"
+  version {
+    value: 4
+  }
+  signature_name: "serving_default"
+}
+```
+
 
 ## SSD MobileNet V2 FPNLite
 
