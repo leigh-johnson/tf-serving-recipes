@@ -1,0 +1,1 @@
+You will need [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) to run GPU images.
