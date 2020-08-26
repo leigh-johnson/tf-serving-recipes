@@ -33,6 +33,7 @@ RUN mkdir -p ${TFHUB_CACHE_DIR}/universal-sentence-encoder/4
 RUN mv ${TFHUB_CACHE_DIR}/${MODEL_SHA}/* ${TFHUB_CACHE_DIR}/universal-sentence-encoder/4
 ADD model.config ${TFSERVING_DIR}/model.config
 ADD metrics.config ${TFSERVING_DIR}/metrics.config
+ADD batch.config ${TFSERVING_DIR}/batch.config
 
 EXPOSE ${GRPC_PORT}
 EXPOSE ${REST_PORT}
@@ -44,4 +45,5 @@ ENTRYPOINT tensorflow_model_server \
     --port=${GRPC_PORT} \
     --rest_api_port=${REST_PORT} \
     --model_config_file=${TFSERVING_DIR}/model.config \
-    --monitoring_config_file=${TFSERVING_DIR}/metrics.config
+    --monitoring_config_file=${TFSERVING_DIR}/metrics.config \
+    --batching_parameters_file=${TFSERVING_DIR}/batch.config --enable_batching
